@@ -212,7 +212,7 @@ export default function EdukasiGlosariumView() {
 
 <article className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
 <div className="relative h-56 w-full overflow-hidden">
-<img className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" data-alt="Modern law office library setting in Jakarta with a female employment legal expert reviewing a formal labor contract document with warm natural ambient lighting, deep navy blue and soft amber office tones, high professional detail and clean legal technology ambiance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPaExO9CDZKReJfw-AFk20Z6BfwqRO3SQvgxGLao3Gig6qp8Mn8-tFQswS488CF2-BT3jhz6dP2RD5vtwYGLcWee6bxwPUNvg2ZUcGkprEwwifsu1cNw4U7UGbxdTm17kWtHpD5liA__J3DVAI28__YGn_mV-z5fwh_XPsVul9TwMAkcmplw5jqMwt1BpaKCso2tqBTlu8YwbUxwnSJZ_RGiMnvxuufAt9vkyGoubPgMqshRzfPKi2dA" />
+<img alt="Konsultan hukum ketenagakerjaan meninjau dokumen kontrak" className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" data-alt="Modern law office library setting in Jakarta with a female employment legal expert reviewing a formal labor contract document with warm natural ambient lighting, deep navy blue and soft amber office tones, high professional detail and clean legal technology ambiance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPaExO9CDZKReJfw-AFk20Z6BfwqRO3SQvgxGLao3Gig6qp8Mn8-tFQswS488CF2-BT3jhz6dP2RD5vtwYGLcWee6bxwPUNvg2ZUcGkprEwwifsu1cNw4U7UGbxdTm17kWtHpD5liA__J3DVAI28__YGn_mV-z5fwh_XPsVul9TwMAkcmplw5jqMwt1BpaKCso2tqBTlu8YwbUxwnSJZ_RGiMnvxuufAt9vkyGoubPgMqshRzfPKi2dA" />
 <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent"></div>
 <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
 <span className="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">
@@ -262,7 +262,7 @@ export default function EdukasiGlosariumView() {
 
 <article className="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-5 items-center">
 <div className="w-full sm:w-36 h-28 rounded-xl overflow-hidden shrink-0">
-<img className="w-full h-full object-cover" data-alt="Close up view of two professionals shaking hands cordially across a sleek conference table with employment contract paper and pen laid out neatly, warm lighting, corporate Jakarta setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF6VZ39EH_WFSiIhNNbaZHZ7qxsJoB7Psnh4uC-UOr4dpLdtuKGZU6ygYSScrHp8rJEWh0oFRuPWaYw86lf57EsDNzNTB20V1LQdF3fRLM9ykjKh89ECQ2Riij7tdGpLXUq5qZOjxMQIO7wCkw4DpWgRxI47loJoLeMJIbOUqxPXQ0tBiy5NNIbfTlmHF0obXKQ9wgQ3yvruW6YUsqU25RPSzXAiGMXGD1NsvtIuImRPVAX85-PKEVdA" />
+<img alt="Dua profesional berjabat tangan di meja pertemuan kerja" className="w-full h-full object-cover" data-alt="Close up view of two professionals shaking hands cordially across a sleek conference table with employment contract paper and pen laid out neatly, warm lighting, corporate Jakarta setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF6VZ39EH_WFSiIhNNbaZHZ7qxsJoB7Psnh4uC-UOr4dpLdtuKGZU6ygYSScrHp8rJEWh0oFRuPWaYw86lf57EsDNzNTB20V1LQdF3fRLM9ykjKh89ECQ2Riij7tdGpLXUq5qZOjxMQIO7wCkw4DpWgRxI47loJoLeMJIbOUqxPXQ0tBiy5NNIbfTlmHF0obXKQ9wgQ3yvruW6YUsqU25RPSzXAiGMXGD1NsvtIuImRPVAX85-PKEVdA" />
 </div>
 <div className="flex-1 flex flex-col gap-1.5">
 <div className="flex items-center gap-2">
@@ -280,7 +280,7 @@ export default function EdukasiGlosariumView() {
 
 <article className="bg-surface-container-lowest p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-5 items-center">
 <div className="w-full sm:w-36 h-28 rounded-xl overflow-hidden shrink-0">
-<img className="w-full h-full object-cover" data-alt="Indonesian legal documents with magnifying glass emphasizing critical fine print clauses on a clean minimalist desk, warm amber accents and deep navy blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKlLqg7GGgiS6p0eZ-hsE2o2floHM4SH0jIioPu5joOVt6jqf-gV7xRtIrWd52sNTRm4J9IjHJ5_bNXyhBvVw1bbmUnh70CnGUegkDkCDttKtP7_bUmbGdf-iRI90HWZnzONQ2X9VwiHMWfyFLKEHCvnmHMwxX7xrzpkRx-ql--1jsmHEmfXGXETg5qjWALzGmBDmC65vqwvQx1vYzCEIJei024UpsN5d4MNDyoMs8d_YLMrHffMYzsA" />
+<img alt="Dokumen hukum dengan kaca pembesar pada klausul kontrak" className="w-full h-full object-cover" data-alt="Indonesian legal documents with magnifying glass emphasizing critical fine print clauses on a clean minimalist desk, warm amber accents and deep navy blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKlLqg7GGgiS6p0eZ-hsE2o2floHM4SH0jIioPu5joOVt6jqf-gV7xRtIrWd52sNTRm4J9IjHJ5_bNXyhBvVw1bbmUnh70CnGUegkDkCDttKtP7_bUmbGdf-iRI90HWZnzONQ2X9VwiHMWfyFLKEHCvnmHMwxX7xrzpkRx-ql--1jsmHEmfXGXETg5qjWALzGmBDmC65vqwvQx1vYzCEIJei024UpsN5d4MNDyoMs8d_YLMrHffMYzsA" />
 </div>
 <div className="flex-1 flex flex-col gap-1.5">
 <div className="flex items-center gap-2">

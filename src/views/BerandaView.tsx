@@ -340,7 +340,7 @@ export default function BerandaView() {
 
 <article className="rounded-2xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
 <div className="relative h-44 overflow-hidden">
-<img className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="An Indonesian corporate office environment with a legal document lying on a sleek modern wooden desk, subtle warm morning light, professional legal tech vibe with navy blue accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCthdlpaqhCG_ir-fCd8DaL0mTrjNS8zeNGvkKoixKW1tc6k0MSQ41ErT6dWTqS6LmK0IzPI0d1_mEKKDYRTxqUzHUCxiymZ3099CsHrwxAK5yyMeyfKJQCP3wSoaE-1gWR0xm06iCfrvYDifgvzbuzYyfNkDPhGT3vsXfLU0WA3p8pxnkyrs3D9jDwpvMbrkVALaJ11P4Tp31IhxW5P97x6nNVMocu4aFEgl4zq4iN1t6ZxVyZF6mDKg" />
+<img alt="Dokumen kontrak kerja di meja kantor" className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="An Indonesian corporate office environment with a legal document lying on a sleek modern wooden desk, subtle warm morning light, professional legal tech vibe with navy blue accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCthdlpaqhCG_ir-fCd8DaL0mTrjNS8zeNGvkKoixKW1tc6k0MSQ41ErT6dWTqS6LmK0IzPI0d1_mEKKDYRTxqUzHUCxiymZ3099CsHrwxAK5yyMeyfKJQCP3wSoaE-1gWR0xm06iCfrvYDifgvzbuzYyfNkDPhGT3vsXfLU0WA3p8pxnkyrs3D9jDwpvMbrkVALaJ11P4Tp31IhxW5P97x6nNVMocu4aFEgl4zq4iN1t6ZxVyZF6mDKg" />
 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold shadow-sm">
             UU No. 6/2023
           </span>
@@ -366,7 +366,7 @@ export default function BerandaView() {
 
 <article className="rounded-2xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
 <div className="relative h-44 overflow-hidden">
-<img className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="A focused young Indonesian professional reviewing a document under a desk lamp in a contemporary workspace, high contrast, clean legal editorial photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsTUePThca9PuLMqieNfskgs1Wgjhdx6CgowEBzgmZJzkwyfd2zG_dQTx3wuU5rZ7jGYAiG4Gkmw7HyZ350ZeDsUVGbedv8lSa9Srir3F6kRsyEmqPjJxJpz9iGdwvmC6UYW1DQE1OT1jDUN7H5r1-Q61tqB_yoJd2GDMAx-UVx-YF6djo3hk1ihXCCNXG2KYYu5Wr9ITu9mlwTfxxiAzZvlYVGpeL7RKB7Rjzaxp7MycGD4sYbC5U4g" />
+<img alt="Pekerja profesional meninjau dokumen kontrak kerja" className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="A focused young Indonesian professional reviewing a document under a desk lamp in a contemporary workspace, high contrast, clean legal editorial photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsTUePThca9PuLMqieNfskgs1Wgjhdx6CgowEBzgmZJzkwyfd2zG_dQTx3wuU5rZ7jGYAiG4Gkmw7HyZ350ZeDsUVGbedv8lSa9Srir3F6kRsyEmqPjJxJpz9iGdwvmC6UYW1DQE1OT1jDUN7H5r1-Q61tqB_yoJd2GDMAx-UVx-YF6djo3hk1ihXCCNXG2KYYu5Wr9ITu9mlwTfxxiAzZvlYVGpeL7RKB7Rjzaxp7MycGD4sYbC5U4g" />
 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-error text-on-error font-label-sm text-label-sm font-semibold shadow-sm">
             Waspada Jeratan
           </span>
@@ -392,7 +392,7 @@ export default function BerandaView() {
 
 <article className="rounded-2xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
 <div className="relative h-44 overflow-hidden">
-<img className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="An Indonesian legal attorney discussing compensation calculation with a client, architectural law firm interior with soft natural lighting and certificates on the wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkt6x2lSU7zfa-215dVDLREPVJGSo8Jj4RfCGKmoHg5Q3R0UsVbyqH3_G-5Tq9IPz0WU0SiPrTI6ftXtQLSEemAVfJwAyutzWWL8Nr6yTOXXTRb_aaY9KWmR1_4H0hHjDZKsukNRw4YVOqoYKtAHLg7MmNhvwS3YW04KrhNOXPvjIkXbKBdN2mVRAWC0yUm-sB7tV9ZyjMcU7N6kh4H0Y9-r3z3_d-UWenkqXpM3zKN2EqBPlcTYsK2w" />
+<img alt="Konsultan hukum ketenagakerjaan berdiskusi dengan klien" className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="An Indonesian legal attorney discussing compensation calculation with a client, architectural law firm interior with soft natural lighting and certificates on the wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkt6x2lSU7zfa-215dVDLREPVJGSo8Jj4RfCGKmoHg5Q3R0UsVbyqH3_G-5Tq9IPz0WU0SiPrTI6ftXtQLSEemAVfJwAyutzWWL8Nr6yTOXXTRb_aaY9KWmR1_4H0hHjDZKsukNRw4YVOqoYKtAHLg7MmNhvwS3YW04KrhNOXPvjIkXbKBdN2mVRAWC0yUm-sB7tV9ZyjMcU7N6kh4H0Y9-r3z3_d-UWenkqXpM3zKN2EqBPlcTYsK2w" />
 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-semibold shadow-sm">
             PP No. 35/2021
           </span>
