@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { signOutAction } from "@/actions/auth";
 
 interface NavbarProps {
   user?: {
     name?: string | null;
+    email?: string | null;
     role?: string | null;
   } | null;
 }
@@ -14,32 +16,51 @@ interface NavbarProps {
 const navLinks = [
   { href: "/", label: "Beranda" },
   { href: "/analisis-kontrak", label: "Analisis Kontrak" },
-  { href: "/hitung-hak-kerja", label: "Hitung Hak Kerja" },
-  { href: "/forum-anonim", label: "Forum Anonim" },
+  { href: "/hitung-hak-kerja", label: "Kalkulator Hak" },
+  { href: "/forum-anonim", label: "Forum Diskusi" },
   { href: "/edukasi-glosarium", label: "Edukasi & Glosarium" },
-  { href: "/riwayat-profil", label: "Riwayat & Profil" },
 ];
 
 export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicked outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Default display user if logged in or demo
+  const currentUser = user !== undefined ? user : { name: "John Terry", role: "Karyawan", email: "john.terry@email.com" };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-      <div className="h-20 max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center shadow-sm">
-            <span className="material-symbols-outlined text-on-primary text-[24px]">gavel</span>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-surface-container-high/80 transition-all">
+      <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        {/* Left: Brand Logo */}
+        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+          <div className="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm group-hover:scale-105 transition-transform">
+            <span className="material-symbols-outlined text-[20px]">gavel</span>
           </div>
-          <div className="flex flex-col">
-            <span className="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">KontrakKu</span>
-            <span className="font-label-sm text-label-sm tracking-wider uppercase text-on-surface-variant font-bold">Labor Law &amp; Audit</span>
+          <div className="flex items-center gap-2">
+            <span className="font-headline-sm text-[19px] font-bold text-primary tracking-tight">
+              KontrakKu
+            </span>
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+              LegalTech
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1.5 p-1 rounded-full bg-surface-container-low">
+        {/* Center: Clean Pill Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full bg-surface-container-low/70 border border-surface-container">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -47,10 +68,10 @@ export default function Navbar({ user }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`px-3.5 py-1.5 rounded-full transition-all text-label-lg font-label-lg ${
+                className={`px-3.5 py-1.5 rounded-full text-sm font-semibold transition-all ${
                   isActive
-                    ? "bg-primary-container text-on-primary font-title-md shadow-xs"
-                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                    ? "bg-primary-container text-white shadow-xs"
+                    : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
                 }`}
               >
                 {link.label}
@@ -59,59 +80,95 @@ export default function Navbar({ user }: NavbarProps) {
           })}
         </nav>
 
-        {/* Right Section: User Profile or Sign In */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="relative hidden md:block w-44 lg:w-48">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">
-              search
-            </span>
-            <input
-              className="w-full pl-9 pr-3 py-1.5 rounded-full bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container"
-              placeholder="Cari klausul / UU..."
-              type="text"
-            />
-          </div>
+        {/* Right: User Profile or Auth CTA */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {currentUser ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                className="flex items-center gap-2.5 p-1.5 pr-3 rounded-full hover:bg-surface-container transition-all border border-transparent hover:border-surface-container-high"
+                aria-label="Menu Akun Pengguna"
+              >
+                <div className="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                  {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : "U"}
+                </div>
+                <div className="hidden sm:flex flex-col text-left">
+                  <span className="text-xs font-bold text-on-surface leading-tight">
+                    {currentUser.name}
+                  </span>
+                  <span className="text-[11px] text-on-surface-variant leading-tight">
+                    {currentUser.role || "Akun Terverifikasi"}
+                  </span>
+                </div>
+                <span className="material-symbols-outlined text-[18px] text-on-surface-variant transition-transform duration-200" style={{ transform: userDropdownOpen ? "rotate(180deg)" : "none" }}>
+                  expand_more
+                </span>
+              </button>
 
-          {user ? (
-            <Link
-              href="/riwayat-profil"
-              className="flex items-center gap-2 pl-2 hover:opacity-85 transition-opacity"
-            >
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
-              </div>
-              <div className="hidden sm:flex flex-col text-left">
-                <span className="font-label-md text-label-md text-on-surface font-semibold leading-tight">
-                  {user.name || "Pengguna"}
-                </span>
-                <span className="font-label-sm text-label-sm text-on-surface-variant leading-tight">
-                  {user.role || "Karyawan"}
-                </span>
-              </div>
-            </Link>
+              {/* User Dropdown Menu */}
+              {userDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white shadow-xl border border-surface-container-high py-2 animate-in fade-in zoom-in-95 duration-150 z-50">
+                  <div className="px-4 py-2 border-b border-surface-container">
+                    <p className="text-xs font-semibold text-on-surface">{currentUser.name}</p>
+                    <p className="text-[11px] text-on-surface-variant truncate">{currentUser.email || "Akun Pekerja"}</p>
+                  </div>
+
+                  <Link
+                    href="/riwayat-profil"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[18px] text-primary">folder_open</span>
+                    Riwayat &amp; Profil Kontrak
+                  </Link>
+
+                  <Link
+                    href="/bantuan"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[18px] text-on-surface-variant">help_outline</span>
+                    Pusat Bantuan &amp; Regulasi
+                  </Link>
+
+                  <div className="my-1 border-t border-surface-container"></div>
+
+                  <form action={signOutAction} className="px-2">
+                    <button
+                      type="submit"
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-error hover:bg-error-container/40 transition-colors text-left"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">logout</span>
+                      Keluar Akun
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <Link
                 href="/masuk"
-                className="px-4 py-2 rounded-xl text-label-md font-label-md text-primary hover:bg-surface-container transition-all"
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold text-on-surface hover:bg-surface-container transition-all"
               >
                 Masuk
               </Link>
               <Link
                 href="/daftar"
-                className="px-4 py-2 rounded-xl bg-primary-container text-on-primary text-label-md font-label-md hover:bg-primary transition-all shadow-xs"
+                className="px-4 py-2 rounded-full bg-primary-container text-white text-xs font-bold hover:bg-primary transition-all shadow-xs"
               >
-                Daftar
+                Daftar Gratis
               </Link>
             </div>
           )}
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Hamburger Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
-            aria-label="Toggle Mobile Menu"
+            className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors"
+            aria-label="Menu Navigasi Mobile"
           >
             <span className="material-symbols-outlined text-[24px]">
               {mobileMenuOpen ? "close" : "menu"}
@@ -122,7 +179,7 @@ export default function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-surface-container-lowest border-t border-surface-container-high px-6 py-4 flex flex-col gap-2 shadow-lg animate-in fade-in duration-200">
+        <div className="lg:hidden bg-white border-t border-surface-container-high px-5 py-4 flex flex-col gap-1.5 shadow-lg animate-in slide-in-from-top-2 duration-150">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -130,9 +187,9 @@ export default function Navbar({ user }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2.5 rounded-xl text-body-md font-medium transition-all ${
+                className={`px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   isActive
-                    ? "bg-primary-container text-on-primary font-semibold"
+                    ? "bg-primary-container text-white font-bold"
                     : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
                 }`}
               >
@@ -140,6 +197,17 @@ export default function Navbar({ user }: NavbarProps) {
               </Link>
             );
           })}
+          <Link
+            href="/riwayat-profil"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              pathname === "/riwayat-profil"
+                ? "bg-primary-container text-white font-bold"
+                : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+            }`}
+          >
+            Riwayat &amp; Profil
+          </Link>
         </div>
       )}
     </header>
