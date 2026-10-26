@@ -185,6 +185,135 @@ export default function BerandaView() {
             </div>
           </section>
 
+          {/* Non-intrusive Free vs Pro Comparison Section */}
+          <section className="space-y-6 pt-2">
+            <div className="text-center space-y-2 max-w-xl mx-auto">
+              <span className="text-xs font-bold text-primary uppercase tracking-wider px-3 py-1 rounded-full bg-primary/10">
+                Pilihan Akses Layanan
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-on-surface tracking-tight">
+                Transparan, Terjangkau, Tanpa Jebakan Langganan
+              </h2>
+              <p className="text-xs sm:text-sm text-on-surface-variant">
+                Gunakan seluruh kalkulator hak statutori secara gratis selamanya, atau aktifkan asistensi advokasi penuh sekali bayar.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Card 1: Gratis */}
+              <div className="bg-surface-container-lowest rounded-2xl p-6 sm:p-7 border border-surface-container-high/60 shadow-sm flex flex-col justify-between space-y-5">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                      Pekerja Mandiri
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-surface-container text-[11px] font-semibold text-on-surface-variant">
+                      Akses Terbuka
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-extrabold text-on-surface">Rp 0</span>
+                      <span className="text-xs text-on-surface-variant font-medium">/ selamanya</span>
+                    </div>
+                    <p className="text-xs text-on-surface-variant mt-1">
+                      Solusi mandiri untuk pengecekan cepat hak kerja dan konsultasi regulasi.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5 text-xs text-on-surface-variant pt-2 border-t border-surface-container/60">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                      <span>Kalkulator Kompensasi PKWT, Pesangon, &amp; Lembur</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                      <span>Audit Klausul Kontrak Mandiri &amp; Skor Risiko</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                      <span>Akses Kamus Hukum &amp; Glosarium UU Ketenagakerjaan</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+                      <span>Simpan hingga 3 simulasi di profil akun</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-surface-container/60">
+                  <Link
+                    href="/hitung-hak-kerja"
+                    className="w-full py-2.5 rounded-xl bg-surface-container text-on-surface font-semibold text-xs hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <span>Mulai Hitung Hak Sekarang</span>
+                    <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Card 2: Pro (Sekali Bayar) */}
+              <div className="bg-surface-container-lowest rounded-2xl p-6 sm:p-7 border-2 border-primary/40 shadow-sm flex flex-col justify-between space-y-5 relative overflow-hidden">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                      Advokasi Penuh
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-[11px] font-bold text-primary">
+                      Sekali Bayar
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-black text-primary">Rp 29.000</span>
+                      <span className="text-xs text-on-surface-variant font-medium">/ selamanya (tanpa langganan)</span>
+                    </div>
+                    <p className="text-xs text-on-surface-variant mt-1">
+                      Persiapan lengkap menghadapi perundingan kontrak, sengketa, atau klaim kompensasi.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5 text-xs text-on-surface pt-2 border-t border-surface-container/60">
+                    <div className="flex items-center gap-2 font-medium">
+                      <span className="material-symbols-outlined text-[16px] text-primary">verified</span>
+                      <span>Semua fitur paket Pekerja Mandiri</span>
+                    </div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span className="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                      <span><strong>Simpan riwayat tak terbatas (Unlimited)</strong></span>
+                    </div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span className="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                      <span><strong>Unduh Laporan PDF Resmi Bebas Watermark</strong></span>
+                    </div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span className="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                      <span><strong>15+ Template Draf Surat &amp; Chat Negosiasi HRD</strong></span>
+                    </div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span className="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                      <span>Lencana Anggota Advokasi Terverifikasi</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-surface-container/60">
+                  <Link
+                    href="/pricing"
+                    className="w-full py-2.5 rounded-xl bg-primary text-white font-bold text-xs hover:bg-primary/90 transition-colors flex items-center justify-center gap-1.5 shadow-xs"
+                  >
+                    <span>Pelajari &amp; Aktifkan Paket Pro</span>
+                    <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-center text-[11px] text-on-surface-variant/75 pt-1">
+              🔒 Tanpa sistem auto-debet atau pemotongan berkala. Transaksi aman via QRIS dan Virtual Account perbankan nasional.
+            </p>
+          </section>
+
         </div>
       </main>
 
