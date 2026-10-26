@@ -1,13 +1,11 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import BantuanView from "@/views/BantuanView";
 
-export const metadata = { title: "Bantuan - KontrakKu" };
+export const metadata: Metadata = {
+  title: "Pusat Bantuan & FAQ - KontrakKu",
+  description: "Pertanyaan umum dan panduan penggunaan platform KontrakKu, validasi dasar hukum PP 35/2021, dan perlindungan privasi data pekerja.",
+};
 
 export default function Page() {
-  return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center gap-4 p-8">
-      <h1 className="text-headline-md text-on-surface">Bantuan</h1>
-      <p className="text-body-md text-on-surface-variant">Halaman ini belum dibuat. Tidak ada desain untuk halaman ini di kode.txt.</p>
-      <Link href="/" className="text-label-lg text-primary underline">Kembali ke beranda</Link>
-    </main>
-  );
+  return <BantuanView />;
 }

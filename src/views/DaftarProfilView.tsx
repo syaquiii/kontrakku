@@ -1,14 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import { updateProfileAction, type ActionState } from "@/actions/auth";
+import { createClient } from "@/lib/supabase/client";
 
 export default function DaftarProfilView() {
   const [state, formAction, isPending] = useActionState<ActionState | null, FormData>(
     updateProfileAction,
     null
   );
+
+  const [fullName, setFullName] = useState("");
+  const [province, setProvince] = useState("DKI Jakarta");
+  const [city, setCity] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+  const [employmentStatus, setEmploymentStatus] = useState<"pkwt" | "pkwtt" | "freelance">("pkwt");
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        if (profile) {
+          setFullName(profile.full_name || user.user_metadata?.full_name || "");
+          if (profile.province) setProvince(profile.province);
+          if (profile.city) setCity(profile.city);
+          if (profile.job_title) setJobTitle(profile.job_title);
+          if (profile.employment_status) setEmploymentStatus(profile.employment_status);
+        } else if (user.user_metadata?.full_name) {
+          setFullName(user.user_metadata.full_name);
+        }
+      }
+    });
+  }, []);
+
 
   return (
     <div className="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed">
@@ -143,6 +174,8 @@ export default function DaftarProfilView() {
                       className="w-full h-11 px-3.5 rounded-xl bg-surface-container-low border border-surface-container text-on-surface placeholder:text-outline font-body-md text-body-md focus:bg-surface-container-lowest focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                       id="fullName"
                       name="fullName"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       placeholder="contoh: John Terry"
                       required
                       type="text"
@@ -161,7 +194,8 @@ export default function DaftarProfilView() {
                       <select
                         id="province"
                         name="province"
-                        defaultValue="DKI Jakarta"
+                        value={province}
+                        onChange={(e) => setProvince(e.target.value)}
                         className="w-full h-11 px-3.5 rounded-xl bg-surface-container-low border border-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         required
                       >
@@ -186,6 +220,8 @@ export default function DaftarProfilView() {
                         className="w-full h-11 px-3.5 rounded-xl bg-surface-container-low border border-surface-container text-on-surface placeholder:text-outline font-body-md text-body-md focus:bg-surface-container-lowest focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         id="city"
                         name="city"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                         placeholder="contoh: Jakarta Selatan"
                         required
                         type="text"
@@ -206,6 +242,8 @@ export default function DaftarProfilView() {
                         className="w-full h-11 px-3.5 rounded-xl bg-surface-container-low border border-surface-container text-on-surface placeholder:text-outline font-body-md text-body-md focus:bg-surface-container-lowest focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         id="jobTitle"
                         name="jobTitle"
+                        value={jobTitle}
+                        onChange={(e) => setJobTitle(e.target.value)}
                         placeholder="contoh: Software Engineer / Admin"
                         required
                         type="text"
@@ -222,7 +260,8 @@ export default function DaftarProfilView() {
                       <select
                         id="employmentStatus"
                         name="employmentStatus"
-                        defaultValue="pkwt"
+                        value={employmentStatus}
+                        onChange={(e) => setEmploymentStatus(e.target.value as "pkwt" | "pkwtt" | "freelance")}
                         className="w-full h-11 px-3.5 rounded-xl bg-surface-container-low border border-surface-container text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         required
                       >

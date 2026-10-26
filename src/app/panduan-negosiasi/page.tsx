@@ -1,13 +1,11 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import PanduanNegosiasiView from "@/views/PanduanNegosiasiView";
 
-export const metadata = { title: "Panduan Negosiasi - KontrakKu" };
+export const metadata: Metadata = {
+  title: "Panduan Negosiasi & Template Bipartit Ketenagakerjaan - KontrakKu",
+  description: "Taktik perundingan bipartit dan template draft pesan ke HRD terkait penolakan penahanan ijazah, pencairan kompensasi PKWT, pinalti resign, dan upah lembur.",
+};
 
 export default function Page() {
-  return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center gap-4 p-8">
-      <h1 className="text-headline-md text-on-surface">Panduan Negosiasi</h1>
-      <p className="text-body-md text-on-surface-variant">Halaman ini belum dibuat. Tidak ada desain untuk halaman ini di kode.txt.</p>
-      <Link href="/" className="text-label-lg text-primary underline">Kembali ke beranda</Link>
-    </main>
-  );
+  return <PanduanNegosiasiView />;
 }

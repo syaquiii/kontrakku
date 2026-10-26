@@ -1,7 +1,7 @@
 pre-commit:
   commands:
     lint:
-      glob: "*.{js,jsx,ts,tsx}"
+      glob: "src/**/*.{js,jsx,ts,tsx}"
       run: npx eslint {staged_files}
 
 pre-push:

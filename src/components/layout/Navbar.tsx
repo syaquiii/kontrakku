@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { signOutAction } from "@/actions/auth";
+import { createClient } from "@/lib/supabase/client";
 
 interface NavbarProps {
   user?: {
@@ -17,6 +18,7 @@ const navLinks = [
   { href: "/", label: "Beranda" },
   { href: "/analisis-kontrak", label: "Analisis Kontrak" },
   { href: "/hitung-hak-kerja", label: "Kalkulator Hak" },
+  { href: "/panduan-negosiasi", label: "Panduan Negosiasi" },
   { href: "/forum-anonim", label: "Forum Diskusi" },
   { href: "/edukasi-glosarium", label: "Edukasi & Glosarium" },
 ];
@@ -25,7 +27,69 @@ export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<NavbarProps["user"]>(user || null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (user !== undefined) {
+      setCurrentUser(user);
+      return;
+    }
+
+    const supabase = createClient();
+
+    // Check initial session
+    supabase.auth.getUser().then(async ({ data: { user: authUser } }) => {
+      if (authUser) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name, job_title")
+          .eq("id", authUser.id)
+          .single();
+
+        setCurrentUser({
+          name:
+            profile?.full_name ||
+            authUser.user_metadata?.full_name ||
+            authUser.email?.split("@")[0] ||
+            "Pekerja",
+          email: authUser.email,
+          role: profile?.job_title || "Karyawan",
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    // Listen to real-time auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name, job_title")
+          .eq("id", session.user.id)
+          .single();
+
+        setCurrentUser({
+          name:
+            profile?.full_name ||
+            session.user.user_metadata?.full_name ||
+            session.user.email?.split("@")[0] ||
+            "Pekerja",
+          email: session.user.email,
+          role: profile?.job_title || "Karyawan",
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [user]);
 
   // Close dropdown when clicked outside
   useEffect(() => {
@@ -38,12 +102,10 @@ export default function Navbar({ user }: NavbarProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Default display user if logged in or demo
-  const currentUser = user !== undefined ? user : { name: "John Terry", role: "Karyawan", email: "john.terry@email.com" };
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-surface-container-high/80 transition-all">
-      <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-2 xl:gap-4">
         {/* Left: Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
           <div className="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm group-hover:scale-105 transition-transform">
@@ -60,7 +122,7 @@ export default function Navbar({ user }: NavbarProps) {
         </Link>
 
         {/* Center: Clean Pill Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full bg-surface-container-low/70 border border-surface-container">
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 p-1 rounded-full bg-surface-container-low/70 border border-surface-container shrink-0">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -68,7 +130,7 @@ export default function Navbar({ user }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`px-3.5 py-1.5 rounded-full text-sm font-semibold transition-all ${
+                className={`px-2.5 xl:px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-semibold whitespace-nowrap transition-all ${
                   isActive
                     ? "bg-primary-container text-white shadow-xs"
                     : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container"
@@ -121,6 +183,16 @@ export default function Navbar({ user }: NavbarProps) {
                   >
                     <span className="material-symbols-outlined text-[18px] text-primary">folder_open</span>
                     Riwayat &amp; Profil Kontrak
+                  </Link>
+
+                  <Link
+                    href="/pricing"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-amber-700 bg-amber-500/5 hover:bg-amber-500/10 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[18px] text-amber-600">workspace_premium</span>
+                    <span>Paket &amp; Donasi</span>
+                    <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200/60 text-amber-800">Pro</span>
                   </Link>
 
                   <Link
@@ -198,16 +270,62 @@ export default function Navbar({ user }: NavbarProps) {
             );
           })}
           <Link
-            href="/riwayat-profil"
+            href="/pricing"
             onClick={() => setMobileMenuOpen(false)}
-            className={`px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-              pathname === "/riwayat-profil"
-                ? "bg-primary-container text-white font-bold"
-                : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+            className={`px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-between ${
+              pathname === "/pricing"
+                ? "bg-amber-600 text-white font-bold"
+                : "text-amber-800 bg-amber-50 hover:bg-amber-100"
             }`}
           >
-            Riwayat &amp; Profil
+            <span className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px] text-amber-600">stars</span>
+              Paket &amp; Donasi (Pro)
+            </span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-amber-200/80 text-amber-900 font-bold">Rp 29k</span>
           </Link>
+          {currentUser ? (
+            <>
+              <Link
+                href="/riwayat-profil"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-between ${
+                  pathname === "/riwayat-profil"
+                    ? "bg-primary-container text-white font-bold"
+                    : "text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                }`}
+              >
+                <span>Riwayat &amp; Profil ({currentUser.name})</span>
+                <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              </Link>
+              <form action={signOutAction} className="pt-1">
+                <button
+                  type="submit"
+                  className="w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-error hover:bg-error-container/40 transition-colors text-left"
+                >
+                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                  Keluar Akun
+                </button>
+              </form>
+            </>
+          ) : (
+            <div className="pt-2 border-t border-surface-container flex flex-col gap-2">
+              <Link
+                href="/masuk"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 text-center rounded-xl text-sm font-bold text-on-surface hover:bg-surface-container border border-surface-container transition-all"
+              >
+                Masuk ke Akun
+              </Link>
+              <Link
+                href="/daftar"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 text-center rounded-xl bg-primary-container text-white text-sm font-bold hover:bg-primary transition-all shadow-xs"
+              >
+                Daftar Gratis
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </header>

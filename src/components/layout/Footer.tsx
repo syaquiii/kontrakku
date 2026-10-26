@@ -17,6 +17,12 @@ export default function Footer() {
 
           <div className="flex flex-wrap items-center gap-6">
             <Link
+              href="/pricing"
+              className="font-body-sm text-body-sm text-amber-700 font-semibold hover:text-amber-800 transition-colors"
+            >
+              Paket &amp; Donasi (Pro)
+            </Link>
+            <Link
               href="/kebijakan-privasi"
               className="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
             >

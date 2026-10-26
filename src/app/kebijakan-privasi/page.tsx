@@ -1,13 +1,11 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import KebijakanPrivasiView from "@/views/KebijakanPrivasiView";
 
-export const metadata = { title: "Kebijakan Privasi - KontrakKu" };
+export const metadata: Metadata = {
+  title: "Kebijakan Privasi - KontrakKu",
+  description: "Kebijakan perlindungan data pribadi pengguna platform KontrakKu sesuai amanat UU PDP No. 27/2022.",
+};
 
 export default function Page() {
-  return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center gap-4 p-8">
-      <h1 className="text-headline-md text-on-surface">Kebijakan Privasi</h1>
-      <p className="text-body-md text-on-surface-variant">Halaman ini belum dibuat. Tidak ada desain untuk halaman ini di kode.txt.</p>
-      <Link href="/" className="text-label-lg text-primary underline">Kembali ke beranda</Link>
-    </main>
-  );
+  return <KebijakanPrivasiView />;
 }

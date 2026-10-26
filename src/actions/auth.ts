@@ -3,11 +3,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { signInSchema, signUpSchema, profileSchema, forgotPasswordSchema } from "@/lib/validations/auth";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export type ActionState = {
   success?: boolean;
   error?: string;
   fieldErrors?: Record<string, string>;
+  requiresEmailConfirmation?: boolean;
+  email?: string;
 };
 
 export async function signInAction(prevState: ActionState | null, formData: FormData): Promise<ActionState> {
@@ -62,18 +65,33 @@ export async function signUpAction(prevState: ActionState | null, formData: Form
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const headersList = await headers();
+  const host = headersList.get("host") || "";
+  const proto = headersList.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "http://localhost:3000");
+
+  const { data, error } = await supabase.auth.signUp({
     email: validated.data.email,
     password: validated.data.password,
     options: {
       data: {
         full_name: validated.data.fullName,
       },
+      emailRedirectTo: `${siteUrl}/auth/callback?next=/daftar/profil`,
     },
   });
 
   if (error) {
     return { error: error.message };
+  }
+
+  // If email verification is required by Supabase, session is not yet active
+  if (!data.session) {
+    return {
+      success: true,
+      requiresEmailConfirmation: true,
+      email: validated.data.email,
+    };
   }
 
   redirect("/daftar/profil");
@@ -140,8 +158,13 @@ export async function forgotPasswordAction(prevState: ActionState | null, formDa
   }
 
   const supabase = await createClient();
+  const headersList = await headers();
+  const host = headersList.get("host") || "";
+  const proto = headersList.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "http://localhost:3000");
+
   const { error } = await supabase.auth.resetPasswordForEmail(validated.data.email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/lupa-kata-sandi/konfirmasi`,
+    redirectTo: `${siteUrl}/lupa-kata-sandi/konfirmasi`,
   });
 
   if (error) {
@@ -156,3 +179,34 @@ export async function signOutAction() {
   await supabase.auth.signOut();
   redirect("/masuk");
 }
+
+export async function getCurrentUser() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  return {
+    id: user.id,
+    email: user.email || "",
+    name:
+      profile?.full_name ||
+      user.user_metadata?.full_name ||
+      user.email?.split("@")[0] ||
+      "Pekerja",
+    role: profile?.job_title || "Karyawan",
+    plan: ((user.user_metadata?.plan as string) || "free") as "free" | "pro",
+    profile: profile || null,
+  };
+}
+

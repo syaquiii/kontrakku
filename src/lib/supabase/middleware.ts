@@ -7,14 +7,17 @@ export async function updateSession(request: NextRequest) {
   });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder-project.supabase.co";
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key";
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    "placeholder-anon-key";
 
   // If using placeholder keys in development, allow requests without Supabase errors
-  if (supabaseAnonKey === "placeholder-anon-key") {
+  if (supabaseKey === "placeholder-anon-key") {
     return supabaseResponse;
   }
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -41,7 +44,7 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Protected routes that require login
-  const protectedRoutes = ["/riwayat-profil", "/analisis-kontrak"];
+  const protectedRoutes = ["/riwayat-profil", "/analisis-kontrak", "/daftar/profil"];
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
   // Auth routes that should redirect logged in users to /riwayat-profil
