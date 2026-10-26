@@ -31,14 +31,25 @@ export async function signInAction(prevState: ActionState | null, formData: Form
     return { error: "Silakan periksa kembali input Anda.", fieldErrors };
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email: validated.data.email,
-    password: validated.data.password,
-  });
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: validated.data.email,
+      password: validated.data.password,
+    });
 
-  if (error) {
-    return { error: error.message === "Invalid login credentials" ? "Email atau kata sandi salah." : error.message };
+    if (error) {
+      if (error.message.includes("fetch failed") || error.message.includes("ENOTFOUND")) {
+        return { error: "Gagal terhubung ke Supabase. Pastikan Environment Variables di Vercel sudah diisi." };
+      }
+      return { error: error.message === "Invalid login credentials" ? "Email atau kata sandi salah." : error.message };
+    }
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes("fetch failed") || msg.includes("ENOTFOUND")) {
+      return { error: "Gagal terhubung ke Supabase. Pastikan Environment Variables di Vercel sudah diisi." };
+    }
+    return { error: msg };
   }
 
   redirect("/riwayat-profil");
@@ -70,28 +81,39 @@ export async function signUpAction(prevState: ActionState | null, formData: Form
   const proto = headersList.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "http://localhost:3000");
 
-  const { data, error } = await supabase.auth.signUp({
-    email: validated.data.email,
-    password: validated.data.password,
-    options: {
-      data: {
-        full_name: validated.data.fullName,
-      },
-      emailRedirectTo: `${siteUrl}/auth/callback?next=/daftar/profil`,
-    },
-  });
-
-  if (error) {
-    return { error: error.message };
-  }
-
-  // If email verification is required by Supabase, session is not yet active
-  if (!data.session) {
-    return {
-      success: true,
-      requiresEmailConfirmation: true,
+  try {
+    const { data, error } = await supabase.auth.signUp({
       email: validated.data.email,
-    };
+      password: validated.data.password,
+      options: {
+        data: {
+          full_name: validated.data.fullName,
+        },
+        emailRedirectTo: `${siteUrl}/auth/callback?next=/daftar/profil`,
+      },
+    });
+
+    if (error) {
+      if (error.message.includes("fetch failed") || error.message.includes("ENOTFOUND")) {
+        return { error: "Gagal terhubung ke Supabase. Pastikan Environment Variables di Vercel sudah diisi." };
+      }
+      return { error: error.message };
+    }
+
+    // If email verification is required by Supabase, session is not yet active
+    if (!data.session) {
+      return {
+        success: true,
+        requiresEmailConfirmation: true,
+        email: validated.data.email,
+      };
+    }
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes("fetch failed") || msg.includes("ENOTFOUND")) {
+      return { error: "Gagal terhubung ke Supabase. Pastikan Environment Variables di Vercel sudah diisi." };
+    }
+    return { error: msg };
   }
 
   redirect("/daftar/profil");

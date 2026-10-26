@@ -1,21 +1,19 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+const FALLBACK_SUPABASE_URL = "https://hsjqnulqxypnpaxsqvvv.supabase.co";
+const FALLBACK_SUPABASE_KEY = "sb_publishable_KnLPoCMXugwSLgbkLYVFvw_-Hv62laV";
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder-project.supabase.co";
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || FALLBACK_SUPABASE_URL;
   const supabaseKey =
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    "placeholder-anon-key";
-
-  // If using placeholder keys in development, allow requests without Supabase errors
-  if (supabaseKey === "placeholder-anon-key") {
-    return supabaseResponse;
-  }
+    FALLBACK_SUPABASE_KEY;
 
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
